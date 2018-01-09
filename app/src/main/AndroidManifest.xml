@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.SplashActivity" android:theme="@style/SplashTheme"/>
+
+        <activity android:name=".activity.HeaderBannerActivity" android:theme="@style/NoActionBarTheme"/>
+        <activity android:name=".activity.StatusBarActivity"/>
+        <activity android:name=".activity.HaveFragmentActivity" />
+
+
     </application>
 
 </manifest>
