@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +12,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.ashokvarma.bottomnavigation.TextBadgeItem;
 import com.www.demo.R;
 import com.www.demo.fragment.SimpleFragment;
 
@@ -24,17 +25,20 @@ import com.www.demo.fragment.SimpleFragment;
 public class HaveFragmentActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     private BottomNavigationBar bottomNavigationBar;
-    private BadgeItem badgeItem;
+    private TextBadgeItem badgeItem;
     private SimpleFragment shopFragment;
     private SimpleFragment groupFragment;
     private SimpleFragment exploreFragment;
     private SimpleFragment meFragment;
     private FragmentManager fragmentManager;
+    private Fragment currentFragment;
 
     private int shopColor = Color.parseColor("#904304");
     private int groupColor = Color.parseColor("#906505");
     private int exploreColor = Color.parseColor("#509606");
     private int meColor = Color.parseColor("#190590");
+
+    private int statusHeight;
 
 
     @Override
@@ -42,22 +46,23 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_have_fragment);
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            statusHeight = getStatusHeight();
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
         fragmentManager = getSupportFragmentManager();
         //角标提醒
-        badgeItem = new BadgeItem();
+        badgeItem = new TextBadgeItem();
         //选中时是否隐藏
         badgeItem.setHideOnSelect(false)
                 //文字
-                .setText("99")
+                .setText("9")
                 //背景颜色
                 .setBackgroundColor(R.color.color_badgeItem)
-                //边界宽度
-                .setBorderWidth(0);
+                .setTextColor(R.color.colorPrimary);
 
         //设置tab点击监听
         bottomNavigationBar.setTabSelectedListener(this);
@@ -81,6 +86,7 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
         //选中指定tab
         bottomNavigationBar.selectTab(1);
 
+        getStatusHeight();
 
     }
 
@@ -91,19 +97,27 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
             getWindow().getDecorView().setSystemUiVisibility(ViewGroup.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if (currentFragment != null) {
+            transaction.hide(currentFragment);
+        }
         switch (position) {
             case 0:
                 if (shopFragment == null) {
-                    shopFragment = SimpleFragment.getInstance("购物", shopColor, false);
+                    shopFragment = SimpleFragment.getInstance("购物", shopColor, false, statusHeight);
+                    transaction.add(R.id.container, shopFragment);
+                } else {
+                    transaction.show(shopFragment);
                 }
-                transaction.replace(R.id.container, shopFragment);
+                currentFragment = shopFragment;
                 break;
             case 1:
                 if (groupFragment == null) {
-                    groupFragment = SimpleFragment.getInstance("通讯录", groupColor, false);
+                    groupFragment = SimpleFragment.getInstance("通讯录", groupColor, false, statusHeight);
+                    transaction.add(R.id.container, groupFragment);
+                } else {
+                    transaction.show(groupFragment);
                 }
-
-                transaction.replace(R.id.container, groupFragment);
+                currentFragment = groupFragment;
                 break;
             case 2:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -112,22 +126,27 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
                 }
 
                 if (exploreFragment == null) {
-                    exploreFragment = SimpleFragment.getInstance("发现", exploreColor, true);
+                    exploreFragment = SimpleFragment.getInstance("发现", exploreColor, true, 0);
+                    transaction.add(R.id.container, exploreFragment);
+                } else {
+                    transaction.show(exploreFragment);
                 }
-
-                transaction.replace(R.id.container, exploreFragment);
+                currentFragment = exploreFragment;
                 break;
             case 3:
                 if (meFragment == null) {
-                    meFragment = SimpleFragment.getInstance("我", meColor, false);
+                    meFragment = SimpleFragment.getInstance("我", meColor, false, statusHeight);
+                    transaction.add(R.id.container, meFragment);
+                } else {
+                    transaction.show(meFragment);
                 }
 
-                transaction.replace(R.id.container, meFragment);
+                currentFragment = meFragment;
                 break;
             default:
                 break;
         }
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
     }
 
     @Override
@@ -140,4 +159,14 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
 
     }
 
+    public int getStatusHeight() {
+        int pixelSize = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            pixelSize = getResources().getDimensionPixelSize(resourceId);
+            pixelSize += getResources().getDimensionPixelSize(R.dimen.navigation_height);
+
+        }
+        return pixelSize;
+    }
 }

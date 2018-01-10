@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light">
+    android:background="@color/bottomNavigationBarBackground">
+
+    <View
+        android:id="@+id/status_view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/navigation_height"
+        android:background="@color/color_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/banner_img" />
 
     <ImageView
         android:id="@+id/banner_img"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:contentDescription="@null"
         android:scaleType="centerCrop"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,17 +31,49 @@
     <TextView
         android:id="@+id/title_tv"
         android:layout_width="0dp"
-        android:layout_height="65dp"
-        android:background="@android:color/holo_orange_light"
+        android:layout_height="@dimen/navigation_height"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@null"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/app_name"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/status_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/color_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="188dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="改变状态栏颜色"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/banner_img" />
+        tools:ignore="HardcodedText" />
+
+    <EditText
+        android:id="@+id/color_edt"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginBottom="116dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:digits="0123456789abcdefABCDEF"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:maxLength="6"
+        android:minWidth="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/color_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

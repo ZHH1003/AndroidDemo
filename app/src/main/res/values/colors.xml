@@ -6,4 +6,7 @@
     <color name="bottomNavigationBarBackground">#f2f2f2</color>
     <color name="color_icon_tab_selected">#d88f1b</color>
     <color name="color_badgeItem">#115bee</color>
+    <color name="color_transparent">#00FFFFFF</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_black">#000000</color>
 </resources>

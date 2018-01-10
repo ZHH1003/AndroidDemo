@@ -32,7 +32,7 @@ public class StatusBarActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-            ViewGroup decorView = findViewById(android.R.id.content);
+            ViewGroup decorView = (ViewGroup) findViewById(android.R.id.content);
 
             View statusView = new View(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100);
