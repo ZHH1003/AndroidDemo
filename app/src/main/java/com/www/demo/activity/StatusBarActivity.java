@@ -1,6 +1,5 @@
 package com.www.demo.activity;
 
-import android.app.ActionBar;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ import com.www.demo.R;
  * @author HH on 2018/1/9.
  */
 
-public class StatusBarActivity extends AppCompatActivity{
+public class StatusBarActivity extends AppCompatActivity {
 
 
     @Override
@@ -26,7 +25,6 @@ public class StatusBarActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_status_bar);
-
 
 
         int code = Build.VERSION.SDK_INT;
