@@ -67,7 +67,7 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
         //设置tab点击监听
         bottomNavigationBar.setTabSelectedListener(this);
         //设置Mode
-        bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);//MODE_FIXED, MODE_SHIFTING
+        bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);//MODE_FIXED, MODE_SHIFTING
         //设置BackgroundStyle
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
         //设置背景颜色
@@ -94,7 +94,7 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
     public void onTabSelected(int position) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //设置状态栏白色字体
-            getWindow().getDecorView().setSystemUiVisibility(ViewGroup.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            getWindow().getDecorView().setSystemUiVisibility(ViewGroup.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (currentFragment != null) {
@@ -103,7 +103,7 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
         switch (position) {
             case 0:
                 if (shopFragment == null) {
-                    shopFragment = SimpleFragment.getInstance("购物", shopColor, false, statusHeight);
+                    shopFragment = SimpleFragment.getInstance("购物", shopColor, false, statusHeight, true);
                     transaction.add(R.id.container, shopFragment);
                 } else {
                     transaction.show(shopFragment);
@@ -112,7 +112,7 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
                 break;
             case 1:
                 if (groupFragment == null) {
-                    groupFragment = SimpleFragment.getInstance("通讯录", groupColor, false, statusHeight);
+                    groupFragment = SimpleFragment.getInstance("通讯录", groupColor, true, statusHeight, true);
                     transaction.add(R.id.container, groupFragment);
                 } else {
                     transaction.show(groupFragment);
@@ -126,7 +126,7 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
                 }
 
                 if (exploreFragment == null) {
-                    exploreFragment = SimpleFragment.getInstance("发现", exploreColor, true, 0);
+                    exploreFragment = SimpleFragment.getInstance("发现", exploreColor, true, 0, false);
                     transaction.add(R.id.container, exploreFragment);
                 } else {
                     transaction.show(exploreFragment);
@@ -135,7 +135,7 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
                 break;
             case 3:
                 if (meFragment == null) {
-                    meFragment = SimpleFragment.getInstance("我", meColor, false, statusHeight);
+                    meFragment = SimpleFragment.getInstance("我", meColor, false, statusHeight, true);
                     transaction.add(R.id.container, meFragment);
                 } else {
                     transaction.show(meFragment);
@@ -164,8 +164,6 @@ public class HaveFragmentActivity extends AppCompatActivity implements BottomNav
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             pixelSize = getResources().getDimensionPixelSize(resourceId);
-            pixelSize += getResources().getDimensionPixelSize(R.dimen.navigation_height);
-
         }
         return pixelSize;
     }
